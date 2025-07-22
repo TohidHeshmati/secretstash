@@ -5,10 +5,10 @@ spring:
     property-naming-strategy: SNAKE_CASE
 
   datasource:
-    url: jdbc:mysql://localhost:3106/secret_stash_prod
+    url: jdbc:postgresql://localhost:5432/secret_stash_prod
     username: root
     password: root
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    driver-class-name: org.postgresql.Driver
 
   jpa:
     hibernate:

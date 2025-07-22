@@ -30,8 +30,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.flywaydb:flyway-core")
-    runtimeOnly("org.flywaydb:flyway-mysql")
-    implementation("mysql:mysql-connector-java:8.0.33")
+    runtimeOnly("org.flywaydb:flyway-database-postgresql")
+    implementation("org.postgresql:postgresql:42.7.3")
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
 
     // Security Libraries

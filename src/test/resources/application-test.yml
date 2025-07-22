@@ -1,7 +1,7 @@
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:63490/secret_stash_test
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:63490/secret_stash_test
     username: root
     password: root
   jackson:

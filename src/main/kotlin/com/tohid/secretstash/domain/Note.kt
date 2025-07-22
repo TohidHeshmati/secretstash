@@ -11,7 +11,7 @@ import jakarta.persistence.Table
 import java.time.Instant
 
 @Entity
-@Table(name = "note")
+@Table(name = "notes")
 data class Note(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,

@@ -3,26 +3,28 @@ version: '3.8'
 ## docker compose down
 
 services:
-  mysql-test:
-    container_name: secret_stash-mysql-test
-    image: mysql:8.0
-    ports:
-      - "63490:3306"
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: secret_stash_test
-
-  mysql-local:
-    container_name: secret_stash-mysql-local
-    image: mysql:8.0
-    ports:
-      - "3106:3306"
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: secret_stash_local
-
   redis:
     container_name: secret_stash-redis
     image: redis:7.2
     ports:
       - "6379:6379"
+
+  postgres-local:
+    container_name: secret_stash_postgres_local
+    image: postgres:15
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: secret_stash_local
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+
+  postgres-test:
+    container_name: secret_stash_postgres_test
+    image: postgres:15
+    ports:
+      - "63490:5432"
+    environment:
+      POSTGRES_DB: secret_stash_test
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
