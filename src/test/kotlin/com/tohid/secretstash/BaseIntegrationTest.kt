@@ -18,7 +18,7 @@ abstract class BaseIntegrationTest {
     protected lateinit var userRepository: UserRepository
 
     @Autowired
-    private lateinit var noteRepository: NoteRepository
+    protected lateinit var noteRepository: NoteRepository
 
 
     @LocalServerPort private var port: Int = 0
