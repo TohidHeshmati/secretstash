@@ -11,7 +11,7 @@ import jakarta.persistence.Table
 @Table(name = "users")
 data class User(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long = 0,
+    val id: Long? = null,
 
     @Column(unique = true, nullable = false)
     val username: String,
