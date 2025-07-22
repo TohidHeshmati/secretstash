@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: secretstash
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+
+  datasource:
+    url: jdbc:mysql://localhost:3106/secret_stash_prod
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+
+  flyway:
+    enabled: true
+    locations: classpath:db.migrations
+
+  cache:
+    type: redis
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+logging:
+  level:
+    org.hibernate.SQL: INFO
+
+app:
+  jwt:
+    secret: your_super_secret_key_change_me
+    expirationMs: 86400000
