@@ -5,6 +5,7 @@ import com.tohid.secretstash.dtos.ApiResponse
 import com.tohid.secretstash.dtos.AuthResponse
 import com.tohid.secretstash.dtos.LoginRequest
 import com.tohid.secretstash.dtos.RegisterRequest
+import com.tohid.secretstash.exceptions.UserNameAlreadyExistsException
 import com.tohid.secretstash.repository.UserRepository
 import com.tohid.secretstash.utils.JwtUtils
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -19,7 +20,7 @@ class AuthService(
 
     fun registerUser(request: RegisterRequest): ApiResponse {
         if (userRepository.findByUsername(request.username) != null) {
-            throw IllegalArgumentException("Username already exists")
+            throw UserNameAlreadyExistsException("Username '${request.username}' already exists")
         }
 
         val hashedPassword = passwordEncoder.encode(request.password)
@@ -30,14 +31,12 @@ class AuthService(
     }
 
     fun loginUser(request: LoginRequest): AuthResponse {
-        val user = userRepository.findByUsername(request.username)
-            ?: throw IllegalArgumentException("Invalid credentials")
-
-        if (!passwordEncoder.matches(request.password, user.password)) {
-            throw IllegalArgumentException("Invalid credentials")
-        }
+        val user = userRepository.findByUsername(request.username) ?: invalidCredentials()
+        if (!passwordEncoder.matches(request.password, user.password)) invalidCredentials()
 
         val token = jwtUtils.generateToken(user.username)
         return AuthResponse(token)
     }
+
+    fun invalidCredentials(): Nothing = throw IllegalArgumentException("Invalid credentials")
 }
