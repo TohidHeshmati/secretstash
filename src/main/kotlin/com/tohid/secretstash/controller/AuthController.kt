@@ -4,6 +4,7 @@ import com.tohid.secretstash.dtos.ApiResponse
 import com.tohid.secretstash.dtos.LoginRequest
 import com.tohid.secretstash.dtos.RegisterRequest
 import com.tohid.secretstash.service.AuthService
+import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -17,22 +18,14 @@ class AuthController(
 ) {
 
     @PostMapping("/register")
-    fun register(@RequestBody request: RegisterRequest): ResponseEntity<ApiResponse> {
-        return try {
-            val response = authService.registerUser(request)
-            ResponseEntity.ok(response)
-        } catch (e: IllegalArgumentException) {
-            ResponseEntity.badRequest().body(ApiResponse(e.message ?: "Invalid input"))
-        }
+    fun register(@RequestBody @Valid request: RegisterRequest): ResponseEntity<ApiResponse> {
+        val response = authService.registerUser(request)
+        return ResponseEntity.ok(response)
     }
 
     @PostMapping("/login")
     fun login(@RequestBody request: LoginRequest): ResponseEntity<Any> {
-        return try {
-            val token = authService.loginUser(request)
-            ResponseEntity.ok(token)
-        } catch (e: IllegalArgumentException) {
-            ResponseEntity.status(401).body(ApiResponse(e.message ?: "Unauthorized"))
-        }
+        val token = authService.loginUser(request)
+        return ResponseEntity.ok(token)
     }
 }
