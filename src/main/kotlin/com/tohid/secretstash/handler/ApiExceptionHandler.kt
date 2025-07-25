@@ -9,19 +9,15 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 
 @RestControllerAdvice
 class ApiExceptionHandler {
-
     @ExceptionHandler(UnAuthorizedException::class)
-    fun handleUnauthorized(ex: UnAuthorizedException): ResponseEntity<ApiResponse> {
-        return ResponseEntity.status(401).body(ApiResponse(ex.message))
-    }
+    fun handleUnauthorized(ex: UnAuthorizedException): ResponseEntity<ApiResponse> =
+        ResponseEntity.status(401).body(ApiResponse(ex.message))
 
     @ExceptionHandler(IllegalArgumentException::class)
-    fun handleIllegalArgument(ex: IllegalArgumentException): ResponseEntity<ApiResponse> {
-        return ResponseEntity.badRequest().body(ApiResponse(ex.message ?: "Bad request"))
-    }
+    fun handleIllegalArgument(ex: IllegalArgumentException): ResponseEntity<ApiResponse> =
+        ResponseEntity.badRequest().body(ApiResponse(ex.message ?: "Bad request"))
 
     @ExceptionHandler(AuthenticationException::class)
-    fun handleAuthException(ex: AuthenticationException): ResponseEntity<ApiResponse> {
-        return ResponseEntity.status(401).body(ApiResponse(ex.message ?: "Unauthorized"))
-    }
+    fun handleAuthException(ex: AuthenticationException): ResponseEntity<ApiResponse> =
+        ResponseEntity.status(401).body(ApiResponse(ex.message ?: "Unauthorized"))
 }

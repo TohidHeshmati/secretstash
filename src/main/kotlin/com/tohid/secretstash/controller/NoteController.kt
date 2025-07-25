@@ -18,25 +18,29 @@ import org.springframework.web.bind.annotation.RestController
 class NoteController(
     private val noteService: NoteService
 ) {
-
     @PostMapping
-    fun create(@RequestBody request: NoteRequest): NoteResponse =
-        noteService.createNote(request)
+    fun create(
+        @RequestBody request: NoteRequest
+    ): NoteResponse = noteService.createNote(request)
 
     @GetMapping
-    fun getMyNotes(): List<NoteResponse> =
-        noteService.getMyNotes()
+    fun getMyNotes(): List<NoteResponse> = noteService.getMyNotes()
 
     @GetMapping("/{id}")
-    fun getById(@PathVariable id: Long): NoteResponse =
-        noteService.getNoteById(id)
+    fun getById(
+        @PathVariable id: Long
+    ): NoteResponse = noteService.getNoteById(id)
 
     @PutMapping("/{id}")
-    fun update(@PathVariable id: Long, @RequestBody request: NoteRequest): NoteResponse =
-        noteService.updateNote(id, request)
+    fun update(
+        @PathVariable id: Long,
+        @RequestBody request: NoteRequest
+    ): NoteResponse = noteService.updateNote(id, request)
 
     @DeleteMapping("/{id}")
-    fun delete(@PathVariable id: Long): ResponseEntity<Void> {
+    fun delete(
+        @PathVariable id: Long
+    ): ResponseEntity<Void> {
         noteService.deleteNote(id)
         return ResponseEntity.noContent().build()
     }

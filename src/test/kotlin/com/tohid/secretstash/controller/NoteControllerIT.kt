@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test
 import org.springframework.http.*
 
 class NoteControllerIT : BaseIntegrationTest() {
-
     private lateinit var authToken: String
 
     @BeforeEach
@@ -27,10 +26,11 @@ class NoteControllerIT : BaseIntegrationTest() {
         authToken = loginRes.body?.token ?: error("Token not received")
     }
 
-    private fun authorizedHeaders(): HttpHeaders = HttpHeaders().apply {
-        contentType = MediaType.APPLICATION_JSON
-        setBearerAuth(authToken)
-    }
+    private fun authorizedHeaders(): HttpHeaders =
+        HttpHeaders().apply {
+            contentType = MediaType.APPLICATION_JSON
+            setBearerAuth(authToken)
+        }
 
     @Test
     fun `should create a note`() {
@@ -38,11 +38,12 @@ class NoteControllerIT : BaseIntegrationTest() {
         val request = HttpEntity(noteRequest, authorizedHeaders())
 
         println("Using token: $authToken")
-        val response = restTemplate.postForEntity(
-            "$baseUrl/notes",
-            request,
-            NoteResponse::class.java
-        )
+        val response =
+            restTemplate.postForEntity(
+                "$baseUrl/notes",
+                request,
+                NoteResponse::class.java
+            )
 
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
         assertThat(response.body?.title).isEqualTo("Test Title")
@@ -52,14 +53,19 @@ class NoteControllerIT : BaseIntegrationTest() {
     fun `should get my notes`() {
         // Create one note
         val noteRequest = NoteRequest("Note 1", "Body", null)
-        restTemplate.postForEntity("$baseUrl/notes", HttpEntity(noteRequest, authorizedHeaders()), NoteResponse::class.java)
-
-        val response = restTemplate.exchange(
+        restTemplate.postForEntity(
             "$baseUrl/notes",
-            HttpMethod.GET,
-            HttpEntity<Void>(authorizedHeaders()),
-            Array<NoteResponse>::class.java
+            HttpEntity(noteRequest, authorizedHeaders()),
+            NoteResponse::class.java
         )
+
+        val response =
+            restTemplate.exchange(
+                "$baseUrl/notes",
+                HttpMethod.GET,
+                HttpEntity<Void>(authorizedHeaders()),
+                Array<NoteResponse>::class.java
+            )
 
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
         assertThat(response.body?.size).isGreaterThanOrEqualTo(1)
@@ -68,15 +74,21 @@ class NoteControllerIT : BaseIntegrationTest() {
     @Test
     fun `should get note by id`() {
         val noteRequest = NoteRequest("Get Note", "Content", null)
-        val postRes = restTemplate.postForEntity("$baseUrl/notes", HttpEntity(noteRequest, authorizedHeaders()), NoteResponse::class.java)
+        val postRes =
+            restTemplate.postForEntity(
+                "$baseUrl/notes",
+                HttpEntity(noteRequest, authorizedHeaders()),
+                NoteResponse::class.java
+            )
 
         val id = postRes.body?.id!!
-        val getRes = restTemplate.exchange(
-            "$baseUrl/notes/$id",
-            HttpMethod.GET,
-            HttpEntity<Void>(authorizedHeaders()),
-            NoteResponse::class.java
-        )
+        val getRes =
+            restTemplate.exchange(
+                "$baseUrl/notes/$id",
+                HttpMethod.GET,
+                HttpEntity<Void>(authorizedHeaders()),
+                NoteResponse::class.java
+            )
 
         assertThat(getRes.statusCode).isEqualTo(HttpStatus.OK)
         assertThat(getRes.body?.title).isEqualTo("Get Note")
@@ -84,19 +96,21 @@ class NoteControllerIT : BaseIntegrationTest() {
 
     @Test
     fun `should update a note`() {
-        val created = restTemplate.postForEntity(
-            "$baseUrl/notes",
-            HttpEntity(NoteRequest("Old Title", "Old Content", null), authorizedHeaders()),
-            NoteResponse::class.java
-        )
+        val created =
+            restTemplate.postForEntity(
+                "$baseUrl/notes",
+                HttpEntity(NoteRequest("Old Title", "Old Content", null), authorizedHeaders()),
+                NoteResponse::class.java
+            )
 
         val updateRequest = NoteRequest("Updated Title", "Updated Content")
-        val updated = restTemplate.exchange(
-            "$baseUrl/notes/${created.body?.id}",
-            HttpMethod.PUT,
-            HttpEntity(updateRequest, authorizedHeaders()),
-            NoteResponse::class.java
-        )
+        val updated =
+            restTemplate.exchange(
+                "$baseUrl/notes/${created.body?.id}",
+                HttpMethod.PUT,
+                HttpEntity(updateRequest, authorizedHeaders()),
+                NoteResponse::class.java
+            )
 
         assertThat(updated.statusCode).isEqualTo(HttpStatus.OK)
         assertThat(updated.body?.title).isEqualTo("Updated Title")
@@ -104,18 +118,20 @@ class NoteControllerIT : BaseIntegrationTest() {
 
     @Test
     fun `should delete a note`() {
-        val created = restTemplate.postForEntity(
-            "$baseUrl/notes",
-            HttpEntity(NoteRequest("Delete Me", "Bye", null), authorizedHeaders()),
-            NoteResponse::class.java
-        )
+        val created =
+            restTemplate.postForEntity(
+                "$baseUrl/notes",
+                HttpEntity(NoteRequest("Delete Me", "Bye", null), authorizedHeaders()),
+                NoteResponse::class.java
+            )
 
-        val deleteRes = restTemplate.exchange(
-            "$baseUrl/notes/${created.body?.id}",
-            HttpMethod.DELETE,
-            HttpEntity<Void>(authorizedHeaders()),
-            Void::class.java
-        )
+        val deleteRes =
+            restTemplate.exchange(
+                "$baseUrl/notes/${created.body?.id}",
+                HttpMethod.DELETE,
+                HttpEntity<Void>(authorizedHeaders()),
+                Void::class.java
+            )
 
         assertThat(deleteRes.statusCode).isEqualTo(HttpStatus.NO_CONTENT)
     }

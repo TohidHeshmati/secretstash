@@ -7,9 +7,6 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/")
 @RestController
 class HomeController {
-
     @GetMapping
-    fun home(): String {
-        return "Welcome to Secret Stash!"
-    }
+    fun home(): String = "Welcome to Secret Stash!"
 }

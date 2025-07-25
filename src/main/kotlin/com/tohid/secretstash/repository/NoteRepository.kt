@@ -11,5 +11,8 @@ interface NoteRepository : JpaRepository<Note, Long> {
         now: Instant
     ): List<Note>
 
-    fun findByIdAndUser(id: Long, user: User): Note?
+    fun findByIdAndUser(
+        id: Long,
+        user: User
+    ): Note?
 }

@@ -14,7 +14,6 @@ class JwtUtils(
     @Value("\${app.jwt.secret}") private val secret: String,
     @Value("\${app.jwt.expirationMs}") private val expirationMs: Long
 ) {
-
     private val key: SecretKey by lazy {
         Keys.hmacShaKeyFor(secret.toByteArray())
     }
@@ -23,7 +22,8 @@ class JwtUtils(
         val now = Date()
         val expiryDate = Date(now.time + expirationMs)
 
-        return Jwts.builder()
+        return Jwts
+            .builder()
             .setSubject(username)
             .setIssuedAt(now)
             .setExpiration(expiryDate)
@@ -32,11 +32,13 @@ class JwtUtils(
     }
 
     fun getUsernameFromToken(token: String): String {
-    val claims = Jwts.parserBuilder()
-        .setSigningKey(secret.toByteArray(StandardCharsets.UTF_8))
-        .build()
-        .parseClaimsJws(token)
+        val claims =
+            Jwts
+                .parserBuilder()
+                .setSigningKey(secret.toByteArray(StandardCharsets.UTF_8))
+                .build()
+                .parseClaimsJws(token)
 
-    return claims.body.subject
-}
+        return claims.body.subject
+    }
 }

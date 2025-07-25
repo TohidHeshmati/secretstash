@@ -15,7 +15,6 @@ class NoteService(
     private val noteRepository: NoteRepository,
     private val userRepository: UserRepository
 ) {
-
     fun getCurrentUser(): User {
         val username = SecurityContextHolder.getContext().authentication.principal as String
         return userRepository.findByUsername(username)
@@ -25,12 +24,13 @@ class NoteService(
     fun createNote(request: NoteRequest): NoteResponse {
         val user = getCurrentUser()
 
-        val note = Note(
-            title = request.title,
-            content = request.content,
-            expiresAt = request.expiresAt,
-            user = user
-        )
+        val note =
+            Note(
+                title = request.title,
+                content = request.content,
+                expiresAt = request.expiresAt,
+                user = user
+            )
         return noteRepository.save(note).toDto()
     }
 
@@ -45,29 +45,36 @@ class NoteService(
 
     fun getNoteById(id: Long): NoteResponse {
         val user = getCurrentUser()
-        val note = noteRepository.findByIdAndUser(id, user)
-            ?: throw IllegalArgumentException("Note not found")
+        val note =
+            noteRepository.findByIdAndUser(id, user)
+                ?: throw IllegalArgumentException("Note not found")
         return note.toDto()
     }
 
-    fun updateNote(id: Long, request: NoteRequest): NoteResponse {
+    fun updateNote(
+        id: Long,
+        request: NoteRequest
+    ): NoteResponse {
         val user = getCurrentUser()
-        val note = noteRepository.findByIdAndUser(id, user)
-            ?: throw IllegalArgumentException("Note not found")
+        val note =
+            noteRepository.findByIdAndUser(id, user)
+                ?: throw IllegalArgumentException("Note not found")
 
-        val updated = note.copy(
-            title = request.title,
-            content = request.content,
-            expiresAt = request.expiresAt
-        )
+        val updated =
+            note.copy(
+                title = request.title,
+                content = request.content,
+                expiresAt = request.expiresAt
+            )
 
         return noteRepository.save(updated).toDto()
     }
 
     fun deleteNote(id: Long) {
         val user = getCurrentUser()
-        val note = noteRepository.findByIdAndUser(id, user)
-            ?: throw IllegalArgumentException("Note not found")
+        val note =
+            noteRepository.findByIdAndUser(id, user)
+                ?: throw IllegalArgumentException("Note not found")
 
         noteRepository.delete(note)
     }

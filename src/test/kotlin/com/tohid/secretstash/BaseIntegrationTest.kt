@@ -16,7 +16,6 @@ import org.springframework.test.context.ActiveProfiles
 @ActiveProfiles("test")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 abstract class BaseIntegrationTest {
-
     @Autowired
     protected lateinit var userRepository: UserRepository
 
@@ -47,6 +46,5 @@ abstract class BaseIntegrationTest {
         noteRepository.deleteAll()
         userRepository.deleteAll()
         println("note and user repositories cleared")
-
     }
 }

@@ -9,7 +9,6 @@ import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.transaction.annotation.Transactional
 
 class UserRepositoryIT : BaseIntegrationTest() {
-
     @Test
     fun `should return null if user not found`() {
         val result = userRepository.findByUsername("nonexistent")

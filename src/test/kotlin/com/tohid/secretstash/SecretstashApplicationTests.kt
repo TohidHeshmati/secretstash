@@ -7,9 +7,7 @@ import org.springframework.test.context.ActiveProfiles
 @SpringBootTest
 @ActiveProfiles("test")
 class SecretstashApplicationTests {
-
     @Test
     fun contextLoads() {
     }
-
 }

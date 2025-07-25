@@ -19,7 +19,6 @@ data class Note(
     val content: String,
     val createdAt: Instant = Instant.now(),
     val expiresAt: Instant? = null,
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     val user: User

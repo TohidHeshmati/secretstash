@@ -1,4 +1,4 @@
-package com.tohid.secretstash.dtos;
+package com.tohid.secretstash.dtos
 
 import jakarta.validation.Validation
 import jakarta.validation.Validator
@@ -9,8 +9,6 @@ import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 
 class RegisterRequestTest {
-
-
     companion object {
         lateinit var validator: Validator
 

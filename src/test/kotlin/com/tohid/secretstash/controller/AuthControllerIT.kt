@@ -11,7 +11,6 @@ import org.springframework.http.HttpEntity
 import org.springframework.http.HttpStatus
 
 class AuthControllerIT : BaseIntegrationTest() {
-
     @Test
     fun `should register a new user`() {
         val requestBody = RegisterRequest(username = "testuser", password = "securepass")

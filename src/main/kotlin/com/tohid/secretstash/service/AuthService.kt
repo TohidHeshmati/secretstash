@@ -18,7 +18,6 @@ class AuthService(
     private val passwordEncoder: PasswordEncoder,
     private val jwtUtils: JwtUtils
 ) {
-
     fun registerUser(request: RegisterRequest): ApiResponse {
         if (userRepository.findByUsername(request.username) != null) {
             throw UserNameAlreadyExistsException("Username '${request.username}' already exists")

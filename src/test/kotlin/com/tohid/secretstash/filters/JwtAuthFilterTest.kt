@@ -1,5 +1,4 @@
-package com.tohid.secretstash.filters;
-
+package com.tohid.secretstash.filters
 
 import com.tohid.secretstash.utils.JwtUtils
 import jakarta.servlet.FilterChain
@@ -13,9 +12,7 @@ import org.mockito.Mockito.*
 import org.springframework.http.HttpHeaders
 import org.springframework.security.core.context.SecurityContextHolder
 
-
 class JwtAuthFilterTest {
-
     private val jwtUtils: JwtUtils = mock(JwtUtils::class.java)
     private val filter = TestableJwtAuthFilter(jwtUtils)
 
@@ -80,7 +77,9 @@ class JwtAuthFilterTest {
     }
 }
 
-class TestableJwtAuthFilter(jwtUtils: JwtUtils) : JwtAuthFilter(jwtUtils) {
+class TestableJwtAuthFilter(
+    jwtUtils: JwtUtils
+) : JwtAuthFilter(jwtUtils) {
     fun callDoFilterInternal(
         request: HttpServletRequest,
         response: HttpServletResponse,
