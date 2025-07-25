@@ -1,0 +1,61 @@
+### Authentication Requests
+
+### Register new user
+POST http://localhost:8080/auth/register
+Content-Type: application/json
+
+{
+    "username": "testuser",
+    "password": "securepass"
+}
+
+### Login user
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+    "username": "testuser",
+    "password": "securepass"
+}
+
+### Notes Endpoints (Without Authentication)
+
+### Get all notes (unauthorized)
+GET http://localhost:8080/notes
+
+### Get note by id (unauthorized)
+GET http://localhost:8080/notes/1
+
+### Notes Endpoints (With Authentication)
+
+### Get all notes
+GET http://localhost:8080/notes
+Authorization: Bearer {{auth_token}}
+
+### Get note by id
+GET http://localhost:8080/notes/1
+Authorization: Bearer {{auth_token}}
+
+### Create new note
+POST http://localhost:8080/notes
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+    "title": "My Secret Note",
+    "content": "This is a secret message"
+}
+
+### Update note
+PUT http://localhost:8080/notes/1
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+    "title": "Updated Note",
+    "content": "Updated content"
+}
+
+### Delete note
+DELETE http://localhost:8080/notes/1
+Authorization: Bearer {{auth_token}}

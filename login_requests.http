@@ -1,0 +1,41 @@
+@host = http://localhost:8080
+
+### Register new user
+POST {{host}}/auth/register
+Content-Type: application/json
+
+{
+    "username": "testuser",
+    "password": "securepass"
+}
+
+### Try to register with duplicate username
+POST {{host}}/auth/register
+Content-Type: application/json
+
+{
+    "username": "testuser",
+    "password": "anotherpass"
+}
+
+### Login with correct credentials
+POST {{host}}/auth/login
+Content-Type: application/json
+
+{
+    "username": "testuser",
+    "password": "securepass"
+}
+
+### Login with wrong password
+POST {{host}}/auth/login
+Content-Type: application/json
+
+{
+    "username": "testuser",
+    "password": "wrongpass"
+}
+
+### Environment Variables
+// Local environment
+@host = http://localhost:8080
