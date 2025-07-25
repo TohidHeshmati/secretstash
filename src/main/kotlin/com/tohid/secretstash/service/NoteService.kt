@@ -8,7 +8,7 @@ import com.tohid.secretstash.repository.NoteRepository
 import com.tohid.secretstash.repository.UserRepository
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
-import java.time.Instant
+import java.time.Instant.now
 
 @Service
 class NoteService(
@@ -36,9 +36,8 @@ class NoteService(
 
     fun getMyNotes(): List<NoteResponse> {
         val user = getCurrentUser()
-        val now = Instant.now()
         return noteRepository
-            .findByUserAndExpiresAtAfterOrExpiresAtIsNullOrderByCreatedAtDesc(user, now)
+            .findByUserAndExpiresAtAfterOrExpiresAtIsNullOrderByCreatedAtDesc(user)
             .take(1000)
             .map { it.toDto() }
     }
@@ -46,7 +45,7 @@ class NoteService(
     fun getNoteById(id: Long): NoteResponse {
         val user = getCurrentUser()
         val note =
-            noteRepository.findByIdAndUser(id, user)
+            noteRepository.findValidNoteByIdAndUser(id, user)
                 ?: throw IllegalArgumentException("Note not found")
         return note.toDto()
     }
@@ -57,7 +56,7 @@ class NoteService(
     ): NoteResponse {
         val user = getCurrentUser()
         val note =
-            noteRepository.findByIdAndUser(id, user)
+            noteRepository.findValidNoteByIdAndUser(id, user)
                 ?: throw IllegalArgumentException("Note not found")
 
         val updated =
@@ -73,7 +72,7 @@ class NoteService(
     fun deleteNote(id: Long) {
         val user = getCurrentUser()
         val note =
-            noteRepository.findByIdAndUser(id, user)
+            noteRepository.findValidNoteByIdAndUser(id, user, now())
                 ?: throw IllegalArgumentException("Note not found")
 
         noteRepository.delete(note)

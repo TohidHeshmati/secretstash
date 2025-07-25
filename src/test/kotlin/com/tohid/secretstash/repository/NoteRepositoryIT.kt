@@ -74,7 +74,7 @@ class NoteRepositoryIT : BaseIntegrationTest() {
                 )
             )
 
-        val found = noteRepository.findByIdAndUser(note.id!!, user)
+        val found = noteRepository.findValidNoteByIdAndUser(note.id!!, user)
         assertThat(found).isNotNull
         assertThat(found?.title).isEqualTo("Private")
     }
@@ -89,7 +89,7 @@ class NoteRepositoryIT : BaseIntegrationTest() {
                 Note(title = "Hidden", content = "Not yours", user = user1, createdAt = Instant.now(), expiresAt = null)
             )
 
-        val found = noteRepository.findByIdAndUser(note.id!!, user2)
+        val found = noteRepository.findValidNoteByIdAndUser(note.id, user2)
         assertThat(found).isNull()
     }
 
