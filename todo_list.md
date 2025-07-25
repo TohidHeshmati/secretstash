@@ -20,9 +20,9 @@
 - [x] Read (get) note  
 - [x] Update note  
 - [x] Delete note  
-- [ ] Expiry timestamp logic  
-  - [ ] Expired notes are **excluded** from query results  
-  - [ ] Expiry check logic (e.g., `createdAt + expiresIn < now()`)
+- [x] Expiry timestamp logic  
+  - [x] Expired notes are **excluded** from query results  
+  - [x] Expiry check logic (e.g., `createdAt + expiresIn < now()`)
 
 ---
 
@@ -37,12 +37,12 @@
 ---
 
 ## 🧪 Testing
-- [ ] Add tests for:
-  - [ ] Auth flow (register + login)  
-  - [ ] CRUD functionality  
-  - [ ] Expired note filtering  
-- [ ] Test edge cases:  
-  - [ ] Wrong password  
+- [x] Add tests for:
+  - [x] Auth flow (register + login)  
+  - [x] CRUD functionality  
+  - [x] Expired note filtering  
+- [x] Test edge cases:  
+  - [x] Wrong password  
   - [ ] Expired token  
   - [ ] Missing fields  
 
@@ -60,7 +60,7 @@
 ---
 
 ## 🧹 Cleanup and Enhancements
-- [ ] Enable Ktlint  
+- [x] Enable Ktlint  
 - [ ] Centralized error handling (e.g., `@ControllerAdvice`)  
 - [ ] DTOs renamed to end with `Dto`  
 - [ ] Validate note length and required fields  
