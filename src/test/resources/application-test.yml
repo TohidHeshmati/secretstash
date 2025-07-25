@@ -16,6 +16,9 @@ spring:
     enabled: true
     locations: classpath:db.migrations
 
+  cache:
+    type: none
+
 logging:
   level:
     org.hibernate.SQL: WARN

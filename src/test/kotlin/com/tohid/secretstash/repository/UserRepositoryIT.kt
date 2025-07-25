@@ -6,7 +6,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.springframework.dao.DataIntegrityViolationException
-import org.springframework.transaction.annotation.Transactional
 
 class UserRepositoryIT : BaseIntegrationTest() {
     @Test
@@ -36,7 +35,6 @@ class UserRepositoryIT : BaseIntegrationTest() {
     }
 
     @Test
-    @Transactional
     fun `should update user password`() {
         userRepository.save(User(username = "david", password = "oldpass"))
         val fetched = userRepository.findByUsername("david")!!
@@ -62,6 +60,6 @@ class UserRepositoryIT : BaseIntegrationTest() {
         userRepository.save(User(username = "Frank", password = "secret"))
         val result = userRepository.findByUsername("frank")
 
-        assertThat(result).isNull() // depending on DB collation; PostgreSQL is case-sensitive by default
+        assertThat(result).isNull()
     }
 }

@@ -6,6 +6,8 @@ import com.tohid.secretstash.dtos.NoteRequest
 import com.tohid.secretstash.dtos.NoteResponse
 import com.tohid.secretstash.repository.NoteRepository
 import com.tohid.secretstash.repository.UserRepository
+import org.springframework.cache.annotation.CacheEvict
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import java.time.Instant.now
@@ -16,11 +18,17 @@ class NoteService(
     private val userRepository: UserRepository
 ) {
     fun getCurrentUser(): User {
-        val username = SecurityContextHolder.getContext().authentication.principal as String
+        val authentication = SecurityContextHolder.getContext().authentication
+            ?: throw IllegalStateException("No authentication found in context")
+
+        val username = authentication.principal as? String
+            ?: throw IllegalStateException("Invalid principal in authentication")
+
         return userRepository.findByUsername(username)
             ?: throw IllegalStateException("User not found")
     }
 
+    @CacheEvict(value = ["notes"], key = "#root.target.getCurrentUser().username")
     fun createNote(request: NoteRequest): NoteResponse {
         val user = getCurrentUser()
 
@@ -34,6 +42,7 @@ class NoteService(
         return noteRepository.save(note).toDto()
     }
 
+    @Cacheable(value = ["notes"], key = "#root.target.getCurrentUser().username")
     fun getMyNotes(): List<NoteResponse> {
         val user = getCurrentUser()
         return noteRepository
@@ -50,6 +59,7 @@ class NoteService(
         return note.toDto()
     }
 
+    @CacheEvict(value = ["notes"], key = "#root.target.getCurrentUser().username")
     fun updateNote(
         id: Long,
         request: NoteRequest
