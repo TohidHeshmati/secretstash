@@ -2,6 +2,22 @@
 
 A secure note-taking API built with Kotlin and Spring Boot. Secret Stash allows users to create, read, update, and delete their personal notes with JWT-based authentication.
 
+## 🛠 Tech Stack
+![Kotlin](https://img.shields.io/badge/Kotlin-1.9.25-blueviolet?logo=kotlin)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.3-brightgreen?logo=springboot)
+![Java](https://img.shields.io/badge/Java-21-orange?logo=java)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-42.7.3-blue?logo=postgresql)
+![Redis](https://img.shields.io/badge/Redis-7-red?logo=redis)
+![Gradle](https://img.shields.io/badge/Gradle-Build%20Tool-02303A?logo=gradle)
+![Docker](https://img.shields.io/badge/Docker-Containerized-2496ED?logo=docker)
+![Spring Security](https://img.shields.io/badge/Spring%20Security-6.5.1-brightgreen?logo=springsecurity)
+![Spring Actuator](https://img.shields.io/badge/Spring%20Actuator-Monitoring-brightgreen?logo=spring)
+![Swagger](https://img.shields.io/badge/Swagger-API%20Docs-%23ClojureGreen?logo=swagger)
+![JUnit](https://img.shields.io/badge/JUnit-5-important?logo=java)
+![Ktlint](https://img.shields.io/badge/Ktlint-1.7.1-blueviolet?logo=kotlin)
+![Flyway](https://img.shields.io/badge/Flyway-DB%20Migration-orange?logo=flyway)
+![JWT](https://img.shields.io/badge/JWT-0.11.5-blue?logo=jsonwebtokens)
+
 ## Features
 
 - User authentication with JWT
