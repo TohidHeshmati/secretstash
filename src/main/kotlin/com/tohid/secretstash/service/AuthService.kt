@@ -5,6 +5,7 @@ import com.tohid.secretstash.dtos.ApiResponse
 import com.tohid.secretstash.dtos.AuthResponse
 import com.tohid.secretstash.dtos.LoginRequest
 import com.tohid.secretstash.dtos.RegisterRequest
+import com.tohid.secretstash.exceptions.UnAuthorizedException
 import com.tohid.secretstash.exceptions.UserNameAlreadyExistsException
 import com.tohid.secretstash.repository.UserRepository
 import com.tohid.secretstash.utils.JwtUtils
@@ -23,8 +24,8 @@ class AuthService(
             throw UserNameAlreadyExistsException("Username '${request.username}' already exists")
         }
 
-        val hashedPassword = passwordEncoder.encode(request.password)
-        val newUser = User(username = request.username, password = hashedPassword)
+        val encodedPassword = passwordEncoder.encode(request.password)
+        val newUser = User(username = request.username, password = encodedPassword)
         userRepository.save(newUser)
 
         return ApiResponse("User registered successfully")
@@ -38,5 +39,5 @@ class AuthService(
         return AuthResponse(token)
     }
 
-    fun invalidCredentials(): Nothing = throw IllegalArgumentException("Invalid credentials")
+    fun invalidCredentials(): Nothing = throw UnAuthorizedException("Invalid credentials")
 }

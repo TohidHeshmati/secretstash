@@ -1,6 +1,7 @@
 package com.tohid.secretstash.handler
 
 import com.tohid.secretstash.dtos.ApiResponse
+import com.tohid.secretstash.exceptions.UnAuthorizedException
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.AuthenticationException
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -8,6 +9,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 
 @RestControllerAdvice
 class ApiExceptionHandler {
+
+    @ExceptionHandler(UnAuthorizedException::class)
+    fun handleUnauthorized(ex: UnAuthorizedException): ResponseEntity<ApiResponse> {
+        return ResponseEntity.status(401).body(ApiResponse(ex.message ?: "UNAUTHORIZED"))
+    }
 
     @ExceptionHandler(IllegalArgumentException::class)
     fun handleIllegalArgument(ex: IllegalArgumentException): ResponseEntity<ApiResponse> {
