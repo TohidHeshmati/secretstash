@@ -1,6 +1,7 @@
 package com.tohid.secretstash.controller
 
 import com.tohid.secretstash.dtos.ApiResponse
+import com.tohid.secretstash.dtos.AuthResponse
 import com.tohid.secretstash.dtos.LoginRequest
 import com.tohid.secretstash.dtos.RegisterRequest
 import com.tohid.secretstash.service.AuthService
@@ -26,8 +27,8 @@ class AuthController(
 
     @PostMapping("/login")
     fun login(
-        @RequestBody request: LoginRequest
-    ): ResponseEntity<Any> {
+        @RequestBody @Valid request: LoginRequest
+    ): ResponseEntity<AuthResponse> {
         val token = authService.loginUser(request)
         return ResponseEntity.ok(token)
     }
