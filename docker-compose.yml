@@ -3,6 +3,24 @@ version: '3.8'
 ## docker compose down
 
 services:
+  app:
+    container_name: secret_stash_app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-local:5432/secret_stash_local
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_DATA_REDIS_PORT: 6379
+    depends_on:
+      - redis
+      - postgres-local
+    restart: unless-stopped
+
   redis:
     container_name: secret_stash-redis
     image: redis:7.2
@@ -18,6 +36,8 @@ services:
       POSTGRES_DB: secret_stash_local
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
 
   postgres-test:
     container_name: secret_stash_postgres_test
@@ -28,3 +48,6 @@ services:
       POSTGRES_DB: secret_stash_test
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
+
+volumes:
+  postgres_data:
