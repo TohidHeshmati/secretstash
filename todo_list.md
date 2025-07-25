@@ -16,10 +16,10 @@
 ---
 
 ## 📝 CRUD for Notes
-- [ ] Create note  
-- [ ] Read (get) note  
-- [ ] Update note  
-- [ ] Delete note  
+- [x] Create note  
+- [x] Read (get) note  
+- [x] Update note  
+- [x] Delete note  
 - [ ] Expiry timestamp logic  
   - [ ] Expired notes are **excluded** from query results  
   - [ ] Expiry check logic (e.g., `createdAt + expiresIn < now()`)
