@@ -21,8 +21,15 @@ class SecurityConfig(
                 sessionCreationPolicy = SessionCreationPolicy.STATELESS
             }
             authorizeHttpRequests {
+                authorize("/", permitAll) // Root URL redirects to Swagger UI
                 authorize("/auth/**", permitAll)
                 authorize("/actuator/health/**", permitAll)
+                // Swagger UI and OpenAPI endpoints
+                authorize("/swagger-ui/**", permitAll)
+                authorize("/swagger-ui.html", permitAll)
+                authorize("/v3/api-docs/**", permitAll)
+                authorize("/swagger-resources/**", permitAll)
+                authorize("/webjars/**", permitAll)
                 authorize(anyRequest, authenticated)
             }
             addFilterBefore<UsernamePasswordAuthenticationFilter>(jwtAuthFilter)

@@ -52,3 +52,16 @@ app:
   jwt:
     secret: W7N7NWhJby8o5vJ4eT0kydDNq93hUCZncnldFb5NChY=
     expirationMs: 86400000
+
+# Swagger UI / OpenAPI Configuration
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method
+    tagsSorter: alpha
+    filter: true
+    displayRequestDuration: true
+  api-docs:
+    path: /v3/api-docs
+  show-actuator: true
+  default-produces-media-type: application/json
