@@ -18,11 +18,13 @@ class NoteService(
     private val userRepository: UserRepository
 ) {
     fun getCurrentUser(): User {
-        val authentication = SecurityContextHolder.getContext().authentication
-            ?: throw IllegalStateException("No authentication found in context")
+        val authentication =
+            SecurityContextHolder.getContext().authentication
+                ?: throw IllegalStateException("No authentication found in context")
 
-        val username = authentication.principal as? String
-            ?: throw IllegalStateException("Invalid principal in authentication")
+        val username =
+            authentication.principal as? String
+                ?: throw IllegalStateException("Invalid principal in authentication")
 
         return userRepository.findByUsername(username)
             ?: throw IllegalStateException("User not found")

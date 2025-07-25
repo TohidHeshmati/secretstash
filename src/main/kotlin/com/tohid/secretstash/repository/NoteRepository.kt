@@ -20,5 +20,9 @@ interface NoteRepository : JpaRepository<Note, Long> {
           (n.expiresAt > :now OR n.expiresAt IS NULL)
     """
     )
-    fun findValidNoteByIdAndUser(id: Long, user: User, now: Instant = now()): Note?
+    fun findValidNoteByIdAndUser(
+        id: Long,
+        user: User,
+        now: Instant = now()
+    ): Note?
 }

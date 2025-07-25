@@ -138,12 +138,13 @@ class NoteControllerIT : BaseIntegrationTest() {
 
     @Test
     fun `should return 401 when accessing notes without auth`() {
-        val response = restTemplate.exchange(
-            "$baseUrl/notes",
-            HttpMethod.GET,
-            HttpEntity<Void>(headers),
-            String::class.java
-        )
+        val response =
+            restTemplate.exchange(
+                "$baseUrl/notes",
+                HttpMethod.GET,
+                HttpEntity<Void>(headers),
+                String::class.java
+            )
 
         assertThat(response.statusCode).isEqualTo(HttpStatus.FORBIDDEN)
     }

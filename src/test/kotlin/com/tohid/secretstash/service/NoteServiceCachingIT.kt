@@ -1,4 +1,4 @@
-package com.tohid.secretstash.service;
+package com.tohid.secretstash.service
 
 import com.tohid.secretstash.BaseIntegrationTest
 import com.tohid.secretstash.dtos.NoteRequest
@@ -6,7 +6,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class NoteServiceCachingIT : BaseIntegrationTest() {
-
     @Test
     fun `should cache getMyNotes and evict after create`() {
         val note1 = noteService.createNote(NoteRequest("Title 1", "Content 1", null))
