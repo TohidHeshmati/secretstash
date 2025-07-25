@@ -12,7 +12,7 @@ class ApiExceptionHandler {
 
     @ExceptionHandler(UnAuthorizedException::class)
     fun handleUnauthorized(ex: UnAuthorizedException): ResponseEntity<ApiResponse> {
-        return ResponseEntity.status(401).body(ApiResponse(ex.message ?: "UNAUTHORIZED"))
+        return ResponseEntity.status(401).body(ApiResponse(ex.message))
     }
 
     @ExceptionHandler(IllegalArgumentException::class)
