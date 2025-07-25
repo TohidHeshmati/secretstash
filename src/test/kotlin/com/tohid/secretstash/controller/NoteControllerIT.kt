@@ -1,6 +1,7 @@
 package com.tohid.secretstash.controller
 
 import com.tohid.secretstash.BaseIntegrationTest
+import com.tohid.secretstash.dtos.AuthResponse
 import com.tohid.secretstash.dtos.LoginRequest
 import com.tohid.secretstash.dtos.NoteRequest
 import com.tohid.secretstash.dtos.NoteResponse
@@ -22,8 +23,8 @@ class NoteControllerIT : BaseIntegrationTest() {
 
         // Login and extract token
         val loginReq = HttpEntity(LoginRequest("noter", "secure123"), headers)
-        val loginRes = restTemplate.postForEntity(loginEndpoint, loginReq, String::class.java)
-        authToken = loginRes.body ?: error("Token not received")
+        val loginRes = restTemplate.postForEntity(loginEndpoint, loginReq, AuthResponse::class.java)
+        authToken = loginRes.body?.token ?: error("Token not received")
     }
 
     private fun authorizedHeaders(): HttpHeaders = HttpHeaders().apply {
