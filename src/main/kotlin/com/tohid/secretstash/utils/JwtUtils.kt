@@ -1,9 +1,9 @@
 package com.tohid.secretstash.utils
 
+import com.tohid.secretstash.config.JwtProperties
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import io.jsonwebtoken.security.Keys
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import java.nio.charset.StandardCharsets
 import java.util.Date
@@ -11,16 +11,15 @@ import javax.crypto.SecretKey
 
 @Component
 class JwtUtils(
-    @Value("\${app.jwt.secret}") private val secret: String,
-    @Value("\${app.jwt.expirationMs}") private val expirationMs: Long
+    private val jwtProperties: JwtProperties
 ) {
     private val key: SecretKey by lazy {
-        Keys.hmacShaKeyFor(secret.toByteArray())
+        Keys.hmacShaKeyFor(jwtProperties.secret.toByteArray())
     }
 
     fun generateToken(username: String): String {
         val now = Date()
-        val expiryDate = Date(now.time + expirationMs)
+        val expiryDate = Date(now.time + jwtProperties.expirationMs)
 
         return Jwts
             .builder()
@@ -35,7 +34,7 @@ class JwtUtils(
         val claims =
             Jwts
                 .parserBuilder()
-                .setSigningKey(secret.toByteArray(StandardCharsets.UTF_8))
+                .setSigningKey(jwtProperties.secret.toByteArray(StandardCharsets.UTF_8))
                 .build()
                 .parseClaimsJws(token)
 
