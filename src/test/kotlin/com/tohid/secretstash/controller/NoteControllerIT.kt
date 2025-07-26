@@ -45,7 +45,7 @@ class NoteControllerIT : BaseIntegrationTest() {
                 NoteResponse::class.java
             )
 
-        assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
+        assertThat(response.statusCode).isEqualTo(HttpStatus.CREATED)
         assertThat(response.body?.title).isEqualTo("Test Title")
     }
 

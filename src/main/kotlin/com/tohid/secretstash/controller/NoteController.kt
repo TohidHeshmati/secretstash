@@ -21,7 +21,10 @@ class NoteController(
     @PostMapping
     fun create(
         @RequestBody request: NoteRequest
-    ): NoteResponse = noteService.createNote(request)
+    ): ResponseEntity<NoteResponse> {
+        val note = noteService.createNote(request)
+        return ResponseEntity.status(201).body(note)
+    }
 
     @GetMapping
     fun getMyNotes(): List<NoteResponse> = noteService.getMyNotes()

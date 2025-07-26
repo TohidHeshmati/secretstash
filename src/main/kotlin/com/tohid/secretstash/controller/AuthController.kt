@@ -33,7 +33,7 @@ class AuthController(
     @ApiResponses(
         value = [
             SwaggerResponse(
-                responseCode = "200",
+                responseCode = "201",
                 description = "User registered successfully",
                 content = [Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = Schema(implementation = ApiResponse::class))]
             ),
@@ -55,7 +55,7 @@ class AuthController(
         @RequestBody @Valid request: RegisterRequest
     ): ResponseEntity<ApiResponse> {
         val response = authService.registerUser(request)
-        return ResponseEntity.ok(response)
+        return ResponseEntity.status(201).body(response)
     }
 
     @Operation(

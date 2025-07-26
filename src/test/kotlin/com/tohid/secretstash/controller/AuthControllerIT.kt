@@ -18,7 +18,7 @@ class AuthControllerIT : BaseIntegrationTest() {
 
         val response = restTemplate.postForEntity(registerEndpoint, request, ApiResponse::class.java)
 
-        assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
+        assertThat(response.statusCode).isEqualTo(HttpStatus.CREATED)
         assertThat(response.body?.success).isTrue()
         assertThat(userRepository.findByUsername("testuser")).isNotNull()
     }
