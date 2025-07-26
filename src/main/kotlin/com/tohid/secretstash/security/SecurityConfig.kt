@@ -22,7 +22,7 @@ class SecurityConfig(
             }
             authorizeHttpRequests {
                 authorize("/", permitAll) // Root URL redirects to Swagger UI
-                authorize("/auth/**", permitAll)
+                authorize("/v1/auth/**", permitAll)
                 authorize("/actuator/health/**", permitAll)
                 // Swagger UI and OpenAPI endpoints
                 authorize("/swagger-ui/**", permitAll)

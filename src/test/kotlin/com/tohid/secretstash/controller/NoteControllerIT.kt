@@ -40,7 +40,7 @@ class NoteControllerIT : BaseIntegrationTest() {
         println("Using token: $authToken")
         val response =
             restTemplate.postForEntity(
-                "$baseUrl/notes",
+                "$baseUrl/v1/notes",
                 request,
                 NoteResponse::class.java
             )
@@ -54,14 +54,14 @@ class NoteControllerIT : BaseIntegrationTest() {
         // Create one note
         val noteRequest = NoteRequest("Note 1", "Body", null)
         restTemplate.postForEntity(
-            "$baseUrl/notes",
+            "$baseUrl/v1/notes",
             HttpEntity(noteRequest, authorizedHeaders()),
             NoteResponse::class.java
         )
 
         val response =
             restTemplate.exchange(
-                "$baseUrl/notes",
+                "$baseUrl/v1/notes",
                 HttpMethod.GET,
                 HttpEntity<Void>(authorizedHeaders()),
                 Array<NoteResponse>::class.java
@@ -76,7 +76,7 @@ class NoteControllerIT : BaseIntegrationTest() {
         val noteRequest = NoteRequest("Get Note", "Content", null)
         val postRes =
             restTemplate.postForEntity(
-                "$baseUrl/notes",
+                "$baseUrl/v1/notes",
                 HttpEntity(noteRequest, authorizedHeaders()),
                 NoteResponse::class.java
             )
@@ -84,7 +84,7 @@ class NoteControllerIT : BaseIntegrationTest() {
         val id = postRes.body?.id!!
         val getRes =
             restTemplate.exchange(
-                "$baseUrl/notes/$id",
+                "$baseUrl/v1/notes/$id",
                 HttpMethod.GET,
                 HttpEntity<Void>(authorizedHeaders()),
                 NoteResponse::class.java
@@ -98,7 +98,7 @@ class NoteControllerIT : BaseIntegrationTest() {
     fun `should update a note`() {
         val created =
             restTemplate.postForEntity(
-                "$baseUrl/notes",
+                "$baseUrl/v1/notes",
                 HttpEntity(NoteRequest("Old Title", "Old Content", null), authorizedHeaders()),
                 NoteResponse::class.java
             )
@@ -106,7 +106,7 @@ class NoteControllerIT : BaseIntegrationTest() {
         val updateRequest = NoteRequest("Updated Title", "Updated Content")
         val updated =
             restTemplate.exchange(
-                "$baseUrl/notes/${created.body?.id}",
+                "$baseUrl/v1/notes/${created.body?.id}",
                 HttpMethod.PUT,
                 HttpEntity(updateRequest, authorizedHeaders()),
                 NoteResponse::class.java
@@ -120,14 +120,14 @@ class NoteControllerIT : BaseIntegrationTest() {
     fun `should delete a note`() {
         val created =
             restTemplate.postForEntity(
-                "$baseUrl/notes",
+                "$baseUrl/v1/notes",
                 HttpEntity(NoteRequest("Delete Me", "Bye", null), authorizedHeaders()),
                 NoteResponse::class.java
             )
 
         val deleteRes =
             restTemplate.exchange(
-                "$baseUrl/notes/${created.body?.id}",
+                "$baseUrl/v1/notes/${created.body?.id}",
                 HttpMethod.DELETE,
                 HttpEntity<Void>(authorizedHeaders()),
                 Void::class.java
@@ -140,7 +140,7 @@ class NoteControllerIT : BaseIntegrationTest() {
     fun `should return 401 when accessing notes without auth`() {
         val response =
             restTemplate.exchange(
-                "$baseUrl/notes",
+                "$baseUrl/v1/notes",
                 HttpMethod.GET,
                 HttpEntity<Void>(headers),
                 String::class.java

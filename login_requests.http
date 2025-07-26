@@ -1,7 +1,7 @@
 @host = http://localhost:8080
 
 ### Register new user
-POST {{host}}/auth/register
+POST {{host}}/v1/auth/register
 Content-Type: application/json
 
 {
@@ -10,7 +10,7 @@ Content-Type: application/json
 }
 
 ### Try to register with duplicate username
-POST {{host}}/auth/register
+POST {{host}}/v1/auth/register
 Content-Type: application/json
 
 {
@@ -19,7 +19,7 @@ Content-Type: application/json
 }
 
 ### Login with correct credentials
-POST {{host}}/auth/login
+POST {{host}}/v1/auth/login
 Content-Type: application/json
 
 {
@@ -28,14 +28,10 @@ Content-Type: application/json
 }
 
 ### Login with wrong password
-POST {{host}}/auth/login
+POST {{host}}/v1/auth/login
 Content-Type: application/json
 
 {
     "username": "testuser",
     "password": "wrongpass"
 }
-
-### Environment Variables
-// Local environment
-@host = http://localhost:8080

@@ -46,7 +46,7 @@ class OpenApiConfig {
                             .scheme("bearer")
                             .bearerFormat("JWT")
                             .description(
-                                "Provide a JWT token. JWT token can be obtained from the /auth/login endpoint."
+                                "Provide a JWT token. JWT token can be obtained from the /v1/auth/login endpoint."
                             )
                     )
             )

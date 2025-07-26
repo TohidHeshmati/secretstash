@@ -53,8 +53,8 @@ abstract class BaseIntegrationTest {
     fun cleanup() {
         baseUrl = "http://localhost:$port"
         println("Base URL for tests: $baseUrl")
-        registerEndpoint = "$baseUrl/auth/register"
-        loginEndpoint = "$baseUrl/auth/login"
+        registerEndpoint = "$baseUrl/v1/auth/register"
+        loginEndpoint = "$baseUrl/v1/auth/login"
         noteRepository.deleteAll()
         userRepository.deleteAll()
         val user = userRepository.save(User(username = "cacher", password = "pass"))
