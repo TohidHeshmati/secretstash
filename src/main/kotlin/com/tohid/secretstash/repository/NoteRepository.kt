@@ -2,6 +2,8 @@ package com.tohid.secretstash.repository
 
 import com.tohid.secretstash.domain.Note
 import com.tohid.secretstash.domain.User
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import java.time.Instant
@@ -12,6 +14,12 @@ interface NoteRepository : JpaRepository<Note, Long> {
         user: User,
         now: Instant = now()
     ): List<Note>
+
+    fun findByUserAndExpiresAtAfterOrExpiresAtIsNullOrderByCreatedAtDesc(
+        user: User,
+        now: Instant = now(),
+        pageable: Pageable
+    ): Page<Note>
 
     @Query(
         """

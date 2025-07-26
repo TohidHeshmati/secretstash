@@ -4,10 +4,12 @@ import com.tohid.secretstash.domain.Note
 import com.tohid.secretstash.domain.User
 import com.tohid.secretstash.dtos.NoteRequest
 import com.tohid.secretstash.dtos.NoteResponse
+import com.tohid.secretstash.dtos.PagedNoteResponse
 import com.tohid.secretstash.repository.NoteRepository
 import com.tohid.secretstash.repository.UserRepository
 import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.Cacheable
+import org.springframework.data.domain.Pageable
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import java.time.Instant.now
@@ -51,6 +53,22 @@ class NoteService(
             .findByUserAndExpiresAtAfterOrExpiresAtIsNullOrderByCreatedAtDesc(user)
             .take(1000)
             .map { it.toDto() }
+    }
+
+    fun getMyNotesPaginated(pageable: Pageable): PagedNoteResponse {
+        val user = getCurrentUser()
+        val page = noteRepository
+            .findByUserAndExpiresAtAfterOrExpiresAtIsNullOrderByCreatedAtDesc(user, now(), pageable)
+
+        return PagedNoteResponse(
+            content = page.content.map { it.toDto() },
+            totalElements = page.totalElements,
+            totalPages = page.totalPages,
+            currentPage = page.number,
+            size = page.size,
+            first = page.isFirst,
+            last = page.isLast
+        )
     }
 
     fun getNoteById(id: Long): NoteResponse {

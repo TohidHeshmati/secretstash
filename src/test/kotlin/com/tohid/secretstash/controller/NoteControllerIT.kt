@@ -5,6 +5,7 @@ import com.tohid.secretstash.dtos.AuthResponse
 import com.tohid.secretstash.dtos.LoginRequest
 import com.tohid.secretstash.dtos.NoteRequest
 import com.tohid.secretstash.dtos.NoteResponse
+import com.tohid.secretstash.dtos.PagedNoteResponse
 import com.tohid.secretstash.dtos.RegisterRequest
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
@@ -69,6 +70,44 @@ class NoteControllerIT : BaseIntegrationTest() {
 
         assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
         assertThat(response.body?.size).isGreaterThanOrEqualTo(1)
+    }
+
+    @Test
+    fun `should get my notes paginated`() {
+        for (i in 1..5) {
+            val noteRequest = NoteRequest("Paginated Note $i", "Content $i", null)
+            restTemplate.postForEntity(
+                "$baseUrl/v1/notes",
+                HttpEntity(noteRequest, authorizedHeaders()),
+                NoteResponse::class.java
+            )
+        }
+
+        val response =
+            restTemplate.exchange(
+                "$baseUrl/v1/notes/paginated",
+                HttpMethod.GET,
+                HttpEntity<Void>(authorizedHeaders()),
+                PagedNoteResponse::class.java
+            )
+
+        assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
+        assertThat(response.body?.content?.size).isGreaterThanOrEqualTo(5)
+        assertThat(response.body?.totalElements).isGreaterThanOrEqualTo(5)
+
+        // Test with custom parameters
+        val responseWithParams =
+            restTemplate.exchange(
+                "$baseUrl/v1/notes/paginated?page=0&size=2&sortBy=createdAt&direction=desc",
+                HttpMethod.GET,
+                HttpEntity<Void>(authorizedHeaders()),
+                PagedNoteResponse::class.java
+            )
+
+        assertThat(responseWithParams.statusCode).isEqualTo(HttpStatus.OK)
+        assertThat(responseWithParams.body?.content?.size).isEqualTo(2)
+        assertThat(responseWithParams.body?.size).isEqualTo(2)
+        assertThat(responseWithParams.body?.first).isTrue()
     }
 
     @Test
