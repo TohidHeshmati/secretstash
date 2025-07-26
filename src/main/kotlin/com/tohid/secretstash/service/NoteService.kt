@@ -32,7 +32,7 @@ class NoteService(
             ?: throw IllegalStateException("User not found")
     }
 
-    @CacheEvict(value = ["notes"], key = "#root.target.getCurrentUser().username")
+    @CacheEvict(value = ["notes", "paginatedNotes"], key = "#root.target.getCurrentUser().username", allEntries = true)
     fun createNote(request: NoteRequest): NoteResponse {
         val user = getCurrentUser()
 
@@ -55,6 +55,10 @@ class NoteService(
             .map { it.toDto() }
     }
 
+    @Cacheable(
+        value = ["paginatedNotes"],
+        key = "#root.target.getCurrentUser().username + '_' + #pageable.pageNumber + '_' + #pageable.pageSize + '_' + #pageable.sort"
+    )
     fun getMyNotesPaginated(pageable: Pageable): PagedNoteResponse {
         val user = getCurrentUser()
         val page = noteRepository
@@ -79,7 +83,7 @@ class NoteService(
         return note.toDto()
     }
 
-    @CacheEvict(value = ["notes"], key = "#root.target.getCurrentUser().username")
+    @CacheEvict(value = ["notes", "paginatedNotes"], key = "#root.target.getCurrentUser().username", allEntries = true)
     fun updateNote(
         id: Long,
         request: NoteRequest
@@ -99,6 +103,7 @@ class NoteService(
         return noteRepository.save(updated).toDto()
     }
 
+    @CacheEvict(value = ["notes", "paginatedNotes"], key = "#root.target.getCurrentUser().username", allEntries = true)
     fun deleteNote(id: Long) {
         val user = getCurrentUser()
         val note =
