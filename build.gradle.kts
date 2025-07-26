@@ -50,7 +50,7 @@ dependencies {
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
 
     // OpenAPI/Swagger UI
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.9")
 }
 
 kotlin {
