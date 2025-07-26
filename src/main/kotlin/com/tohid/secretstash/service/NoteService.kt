@@ -5,6 +5,7 @@ import com.tohid.secretstash.domain.User
 import com.tohid.secretstash.dtos.NoteRequest
 import com.tohid.secretstash.dtos.NoteResponse
 import com.tohid.secretstash.dtos.PagedNoteResponse
+import com.tohid.secretstash.exceptions.NoteNotFoundException
 import com.tohid.secretstash.repository.NoteRepository
 import com.tohid.secretstash.repository.UserRepository
 import org.springframework.cache.annotation.CacheEvict
@@ -79,7 +80,7 @@ class NoteService(
         val user = getCurrentUser()
         val note =
             noteRepository.findValidNoteByIdAndUser(id, user)
-                ?: throw IllegalArgumentException("Note not found")
+                ?: throw NoteNotFoundException()
         return note.toDto()
     }
 
@@ -91,7 +92,7 @@ class NoteService(
         val user = getCurrentUser()
         val note =
             noteRepository.findValidNoteByIdAndUser(id, user)
-                ?: throw IllegalArgumentException("Note not found")
+                ?: throw NoteNotFoundException()
 
         val updated =
             note.copy(
@@ -108,7 +109,7 @@ class NoteService(
         val user = getCurrentUser()
         val note =
             noteRepository.findValidNoteByIdAndUser(id, user, now())
-                ?: throw IllegalArgumentException("Note not found")
+                ?: throw NoteNotFoundException()
 
         noteRepository.delete(note)
     }

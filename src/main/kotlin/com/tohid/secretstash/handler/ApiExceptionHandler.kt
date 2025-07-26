@@ -1,6 +1,7 @@
 package com.tohid.secretstash.handler
 
 import com.tohid.secretstash.dtos.ApiResponse
+import com.tohid.secretstash.exceptions.NoteNotFoundException
 import com.tohid.secretstash.exceptions.UnAuthorizedException
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.AuthenticationException
@@ -20,4 +21,8 @@ class ApiExceptionHandler {
     @ExceptionHandler(AuthenticationException::class)
     fun handleAuthException(ex: AuthenticationException): ResponseEntity<ApiResponse> =
         ResponseEntity.status(401).body(ApiResponse(ex.message ?: "Unauthorized"))
+
+    @ExceptionHandler(NoteNotFoundException::class)
+    fun handleNoteNotFound(ex: NoteNotFoundException): ResponseEntity<ApiResponse> =
+        ResponseEntity.status(404).body(ApiResponse(ex.message ?: "Note not found"))
 }

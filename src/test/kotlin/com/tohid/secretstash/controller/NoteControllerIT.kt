@@ -1,6 +1,7 @@
 package com.tohid.secretstash.controller
 
 import com.tohid.secretstash.BaseIntegrationTest
+import com.tohid.secretstash.dtos.ApiResponse
 import com.tohid.secretstash.dtos.AuthResponse
 import com.tohid.secretstash.dtos.LoginRequest
 import com.tohid.secretstash.dtos.NoteRequest
@@ -186,5 +187,21 @@ class NoteControllerIT : BaseIntegrationTest() {
             )
 
         assertThat(response.statusCode).isEqualTo(HttpStatus.FORBIDDEN)
+    }
+
+    @Test
+    fun `should return 404 when note is not found`() {
+        // Use a non-existent note ID
+        val nonExistentId = 999999L
+
+        val response = restTemplate.exchange(
+            "$baseUrl/v1/notes/$nonExistentId",
+            HttpMethod.GET,
+            HttpEntity<Void>(authorizedHeaders()),
+            ApiResponse::class.java
+        )
+
+        assertThat(response.statusCode).isEqualTo(HttpStatus.NOT_FOUND)
+        assertThat(response.body?.message).isEqualTo("Note not found")
     }
 }

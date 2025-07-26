@@ -1,4 +1,4 @@
-# Secret Stash
+# Note Stash
 
 A secure note-taking API built with Kotlin and Spring Boot. Secret Stash allows users to create, read, update, and delete their personal notes with JWT-based authentication.
 
