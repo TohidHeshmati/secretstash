@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.exc.InvalidFormatException
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
-import java.time.Instant
 
 class SafeInstantDeserializerTest {
     private val safeInstantDeserializer = SafeInstantDeserializer()
@@ -23,13 +22,10 @@ class SafeInstantDeserializerTest {
         ],
     )
     fun `deserializes valid ISO-8601 format`(input: String) {
-        val result =
-            safeInstantDeserializer.deserialize(
+        safeInstantDeserializer.deserialize(
                 createParser(input),
                 deserializationContext,
             )
-
-        assert(result is Instant)
     }
 
     @ParameterizedTest
