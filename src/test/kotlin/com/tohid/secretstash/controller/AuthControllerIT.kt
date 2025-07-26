@@ -13,7 +13,7 @@ import org.springframework.http.HttpStatus
 class AuthControllerIT : BaseIntegrationTest() {
     @Test
     fun `should register a new user`() {
-        val requestBody = RegisterRequest(username = "testuser", password = "securepass")
+        val requestBody = RegisterRequest(username = "testuser", password = "securepass".toCharArray())
         val request = HttpEntity(requestBody, headers)
 
         val response = restTemplate.postForEntity(registerEndpoint, request, ApiResponse::class.java)
@@ -27,7 +27,7 @@ class AuthControllerIT : BaseIntegrationTest() {
     fun `should not register user with duplicate username`() {
         userRepository.save(User(username = "existing", password = "secret"))
 
-        val requestBody = RegisterRequest(username = "existing", password = "another")
+        val requestBody = RegisterRequest(username = "existing", password = "another".toCharArray())
         val request = HttpEntity(requestBody, headers)
 
         val response = restTemplate.postForEntity(registerEndpoint, request, String::class.java)
@@ -39,10 +39,10 @@ class AuthControllerIT : BaseIntegrationTest() {
     fun `should login with correct credentials`() {
         restTemplate.postForEntity(
             registerEndpoint,
-            HttpEntity(RegisterRequest("loginuser", "mypassword"), headers),
+            HttpEntity(RegisterRequest("loginuser", "mypassword".toCharArray()), headers),
             ApiResponse::class.java
         )
-        val loginRequestBody = LoginRequest(username = "loginuser", password = "mypassword")
+        val loginRequestBody = LoginRequest(username = "loginuser", password = "mypassword".toCharArray())
         val request = HttpEntity(loginRequestBody, headers)
 
         val response = restTemplate.postForEntity(loginEndpoint, request, String::class.java)
@@ -54,7 +54,7 @@ class AuthControllerIT : BaseIntegrationTest() {
     @Test
     fun `should fail login with incorrect password`() {
         userRepository.save(User(username = "secureuser", password = "correctpass"))
-        val loginRequestBody = LoginRequest(username = "secureuser", password = "wrongpass")
+        val loginRequestBody = LoginRequest(username = "secureuser", password = "wrongpass".toCharArray())
         val request = HttpEntity(loginRequestBody, headers)
 
         val response = restTemplate.postForEntity(loginEndpoint, request, String::class.java)

@@ -23,16 +23,27 @@ class AuthService(
             throw UserNameAlreadyExistsException("Username '${request.username}' already exists")
         }
 
-        val encodedPassword = passwordEncoder.encode(request.password)
+        // Convert CharArray to String for encoding
+        val passwordString = String(request.password)
+        val encodedPassword = passwordEncoder.encode(passwordString)
         val newUser = User(username = request.username, password = encodedPassword)
         userRepository.save(newUser)
+
+        // Clear the password from memory
+        request.password.fill('\u0000')
 
         return ApiResponse("User registered successfully")
     }
 
     fun loginUser(request: LoginRequest): AuthResponse {
         val user = userRepository.findByUsername(request.username) ?: invalidCredentials()
-        if (!passwordEncoder.matches(request.password, user.password)) invalidCredentials()
+
+        // Convert CharArray to String for matching
+        val passwordString = String(request.password)
+        if (!passwordEncoder.matches(passwordString, user.password)) invalidCredentials()
+
+        // Clear the password from memory
+        request.password.fill('\u0000')
 
         val token = jwtUtils.generateToken(user.username)
         return AuthResponse(token)

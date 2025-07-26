@@ -19,11 +19,11 @@ class NoteControllerIT : BaseIntegrationTest() {
     @BeforeEach
     fun setUpUserAndToken() {
         // Register user
-        val registerReq = HttpEntity(RegisterRequest("noter", "secure123"), headers)
+        val registerReq = HttpEntity(RegisterRequest("noter", "secure123".toCharArray()), headers)
         restTemplate.postForEntity(registerEndpoint, registerReq, String::class.java)
 
         // Login and extract token
-        val loginReq = HttpEntity(LoginRequest("noter", "secure123"), headers)
+        val loginReq = HttpEntity(LoginRequest("noter", "secure123".toCharArray()), headers)
         val loginRes = restTemplate.postForEntity(loginEndpoint, loginReq, AuthResponse::class.java)
         authToken = loginRes.body?.token ?: error("Token not received")
     }

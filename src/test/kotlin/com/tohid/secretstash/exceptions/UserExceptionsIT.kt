@@ -63,14 +63,14 @@ class UserExceptionsIT : BaseIntegrationTest() {
         // Register the user
         restTemplate.postForEntity(
             registerEndpoint,
-            HttpEntity(com.tohid.secretstash.dtos.RegisterRequest(username, password), headers),
+            HttpEntity(com.tohid.secretstash.dtos.RegisterRequest(username, password.toCharArray()), headers),
             String::class.java
         )
 
         // Login to get a token
         val loginResponse = restTemplate.postForEntity(
             loginEndpoint,
-            HttpEntity(com.tohid.secretstash.dtos.LoginRequest(username, password), headers),
+            HttpEntity(com.tohid.secretstash.dtos.LoginRequest(username, password.toCharArray()), headers),
             com.tohid.secretstash.dtos.AuthResponse::class.java
         )
 

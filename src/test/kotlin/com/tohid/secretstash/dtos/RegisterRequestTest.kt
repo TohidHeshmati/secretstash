@@ -22,7 +22,7 @@ class RegisterRequestTest {
 
     @Test
     fun `should return validation error for blank username`() {
-        val request = RegisterRequest(username = "   ", password = "securePass")
+        val request = RegisterRequest(username = "   ", password = "securePass".toCharArray())
 
         val violations = validator.validate(request)
 
@@ -32,7 +32,7 @@ class RegisterRequestTest {
 
     @Test
     fun `should return validation error for short password`() {
-        val request = RegisterRequest(username = "user", password = "123")
+        val request = RegisterRequest(username = "user", password = "123".toCharArray())
 
         val violations = validator.validate(request)
 
@@ -42,7 +42,7 @@ class RegisterRequestTest {
 
     @Test
     fun `should pass validation when input is valid`() {
-        val request = RegisterRequest(username = "user", password = "password123")
+        val request = RegisterRequest(username = "user", password = "password123".toCharArray())
 
         val violations = validator.validate(request)
 
