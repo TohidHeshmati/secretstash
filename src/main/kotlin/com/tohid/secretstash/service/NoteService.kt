@@ -5,7 +5,10 @@ import com.tohid.secretstash.domain.User
 import com.tohid.secretstash.dtos.NoteRequest
 import com.tohid.secretstash.dtos.NoteResponse
 import com.tohid.secretstash.dtos.PagedNoteResponse
+import com.tohid.secretstash.exceptions.InvalidPrincipalException
+import com.tohid.secretstash.exceptions.NoAuthenticationException
 import com.tohid.secretstash.exceptions.NoteNotFoundException
+import com.tohid.secretstash.exceptions.UserNotFoundException
 import com.tohid.secretstash.repository.NoteRepository
 import com.tohid.secretstash.repository.UserRepository
 import org.springframework.cache.annotation.CacheEvict
@@ -23,14 +26,14 @@ class NoteService(
     fun getCurrentUser(): User {
         val authentication =
             SecurityContextHolder.getContext().authentication
-                ?: throw IllegalStateException("No authentication found in context")
+                ?: throw NoAuthenticationException()
 
         val username =
             authentication.principal as? String
-                ?: throw IllegalStateException("Invalid principal in authentication")
+                ?: throw InvalidPrincipalException()
 
         return userRepository.findByUsername(username)
-            ?: throw IllegalStateException("User not found")
+            ?: throw UserNotFoundException()
     }
 
     @CacheEvict(value = ["notes", "paginatedNotes"], key = "#root.target.getCurrentUser().username", allEntries = true)
